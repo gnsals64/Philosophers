@@ -6,7 +6,7 @@
 /*   By: hunpark <hunpark@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 13:35:56 by hunpark           #+#    #+#             */
-/*   Updated: 2023/04/14 17:02:11 by hunpark          ###   ########.fr       */
+/*   Updated: 2023/04/18 20:27:51 by hunpark          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,10 @@
 
 int	main(int argc, char **argv)
 {
-	t_arg		*arg;
+	t_arg		arg;
 	t_philo		*philo;
-	pthread_t	*tid;
 
 	if (argc != 5 && argc != 6)
-		exit(1);
-	arg = (t_arg *)malloc(sizeof(arg));
-	if (!arg)
-		exit(1);
-	memset(arg, 0, sizeof(t_arg));
-	set_arg(arg, argv);
+		error_handle("usage : ./philosopher 1 2 3 4 (5)\n");
+	ft_init(&arg, &philo, argv);
 }

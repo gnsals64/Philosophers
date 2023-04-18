@@ -8,7 +8,7 @@ typedef struct s_mutex
 	int				mails;
 }	t_mutex;
 
-void* routine(void	*arg)
+void	*routine(void *arg)
 {
 	t_mutex	*mutex;
 
@@ -20,7 +20,8 @@ void* routine(void	*arg)
 	}
 }
 
-int main(){
+int	main()
+{
 	pthread_t	p1, p2;
 	t_mutex		mutex;
 
@@ -30,13 +31,10 @@ int main(){
 		return 1;
 	if (pthread_create(&p2, NULL, &routine, &mutex) != 0)
 		return 2;
-
 	if (pthread_join(p1, NULL) != 0)
 		return 3;
 	if (pthread_join(p2, NULL) != 0)
 		return 4;
-
-
 	pthread_mutex_destroy(&mutex.mutex);
 	printf("Number of mails : %d\n", mutex.mails);
 	return 0;

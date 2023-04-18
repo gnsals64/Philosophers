@@ -6,7 +6,7 @@
 /*   By: hunpark <hunpark@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 13:37:08 by hunpark           #+#    #+#             */
-/*   Updated: 2023/04/14 16:37:40 by hunpark          ###   ########.fr       */
+/*   Updated: 2023/04/18 20:28:55 by hunpark          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,14 @@ typedef struct s_philo
 	pthread_mutex_t	mutex;
 }	t_philo;
 
+// init
+void	ft_init(t_arg *arg, t_philo **philo, char **argv);
+void	init_philo(t_philo **philo, t_arg *arg);
+void	init_arg(t_arg *arg, char **argv);
+
+//utils
 int		ft_atoi(const char *s);
-void	set_arg(t_arg *arg, char **argv);
+void	error_handle(char *str);
+void	ft_check(int a);
 
 #endif
