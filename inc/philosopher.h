@@ -6,7 +6,7 @@
 /*   By: hunpark <hunpark@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 13:37:08 by hunpark           #+#    #+#             */
-/*   Updated: 2023/04/18 20:28:55 by hunpark          ###   ########.fr       */
+/*   Updated: 2023/04/18 20:56:10 by hunpark          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,10 @@ typedef struct s_arg
 
 typedef struct s_philo
 {
+	int				cnt;
 	int				name;
 	pthread_mutex_t	mutex;
+	t_arg			*arg;
 }	t_philo;
 
 // init
