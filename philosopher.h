@@ -19,6 +19,11 @@
 # include <string.h>
 # include <stdlib.h>
 
+typedef struct s_philo
+{
+
+}	t_philo;
+
 typedef struct s_arg
 {
 	int	num;

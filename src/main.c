@@ -14,7 +14,9 @@
 
 int	main(int argc, char **argv)
 {
-	t_arg	*arg;
+	t_arg		*arg;
+	t_philo		*philo;
+	pthread_t	*tid;
 
 	if (argc != 5 && argc != 6)
 		exit(1);

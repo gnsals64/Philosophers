@@ -29,6 +29,12 @@ typedef struct s_arg
 	int	must_eat;
 }	t_arg;
 
+typedef struct s_philo
+{
+	int				name;
+	pthread_mutex_t	mutex;
+}	t_philo;
+
 int		ft_atoi(const char *s);
 void	set_arg(t_arg *arg, char **argv);
 
