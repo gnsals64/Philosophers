@@ -21,7 +21,8 @@
 
 typedef struct s_philo
 {
-
+	t_arg	*arg;
+	int		i;
 }	t_philo;
 
 typedef struct s_arg

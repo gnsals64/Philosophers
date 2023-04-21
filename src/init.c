@@ -16,7 +16,7 @@ void	ft_init(t_arg *arg, t_philo **philo, char **argv)
 {
 	memset(arg, 0, sizeof(t_arg));
 	init_arg(arg, argv);
-	init_philo(arg, philo);
+	init_philo(philo, arg);
 }
 
 void	init_philo(t_philo **philo, t_arg *arg)
@@ -24,12 +24,16 @@ void	init_philo(t_philo **philo, t_arg *arg)
 	int	i;
 
 	i = 0;
-	*philo = (t_philo *)malloc(sizeof(t_philo) * arg->num);
+	*philo = malloc(sizeof(t_philo) * arg->num);
 	if (!(*philo))
 		error_handle("malloc error\n");
 	while (i < arg->num)
 	{
-
+		(*philo)[i].cnt = i;
+		(*philo)[i].arg = arg;
+		(*philo)[i].id = i;
+		(*philo)[i].status = 0;
+		i++;
 	}
 }
 
@@ -46,4 +50,5 @@ void	init_arg(t_arg *arg, char **argv)
 	if (arg->num < 0 || arg->time_die < 0 || arg->time_eat < 0
 		|| arg->time_sleep < 0)
 		error_handle("error\n");
+	pthread_mutex_init(&(arg->mutex), NULL);
 }

@@ -3,23 +3,23 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: hunpark <hunpark@student.42.fr>            +#+  +:+       +#+         #
+#    By: hupa <hupa@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/14 16:54:20 by hunpark           #+#    #+#              #
-#    Updated: 2023/04/18 20:45:36 by hunpark          ###   ########.fr        #
+#    Updated: 2023/04/22 02:22:39 by hupa             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = philosopher
 CC = cc
-FLAG = -Wall -Werror -Wextra #-fsanitize=address
-SRC_FILE = $(addprefix src/, main utils init)
+FLAG = -g -Wall -Werror -Wextra #-fsanitize=address
+SRC_FILE = $(addprefix src/, main utils init thread_utils)
 SRCS = ${SRC_FILE:=.c}
 
 all : ${NAME}
 
 ${NAME} :
-	@${CC} ${FLAG} ${SRCS} -o ${NAME}
+	@${CC} ${FLAG} ${SRCS} -lpthread -o ${NAME}
 
 clean :
 
