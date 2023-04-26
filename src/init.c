@@ -6,20 +6,39 @@
 /*   By: hunpark <hunpark@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 20:26:51 by hunpark           #+#    #+#             */
-/*   Updated: 2023/04/18 20:56:08 by hunpark          ###   ########.fr       */
+/*   Updated: 2023/04/26 15:07:11 by hunpark          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/philosopher.h"
 
-void	ft_init(t_arg *arg, t_philo **philo, char **argv)
+void	ft_init(t_arg *arg, t_philo **philo, t_share *share, char **argv)
 {
 	memset(arg, 0, sizeof(t_arg));
 	init_arg(arg, argv);
-	init_philo(philo, arg);
+	init_share(share, arg);
+	init_philo(philo, arg, share);
 }
 
-void	init_philo(t_philo **philo, t_arg *arg)
+void	init_share(t_share *share, t_arg *arg)
+{
+	int	i;
+
+	i = 0;
+	share->fork = malloc(sizeof(pthread_mutex_t) * arg->num);
+	if (!share->fork)
+		error_handle("malloc error");
+	while (i < arg->num)
+	{
+		ft_check(pthread_mutex_init(&(share->fork[i]), NULL));
+		i++;
+	}
+	ft_check(pthread_mutex_init(&(share->print), NULL));
+	share->time_to_start = ft_get_time();
+	share->finish = false;
+}
+
+void	init_philo(t_philo **philo, t_arg *arg, t_share *share)
 {
 	int	i;
 
@@ -29,10 +48,13 @@ void	init_philo(t_philo **philo, t_arg *arg)
 		error_handle("malloc error\n");
 	while (i < arg->num)
 	{
-		(*philo)[i].cnt = i;
-		(*philo)[i].arg = arg;
+		(*philo)[i].eat_cnt = 0;
 		(*philo)[i].id = i;
-		(*philo)[i].status = 0;
+		(*philo)[i].left_fork = i;
+		(*philo)[i].right_fork = (i + arg->num - 1) % arg->num;
+		(*philo)[i].last_eat = ft_get_time();
+		(*philo)[i].arg = arg;
+		(*philo)[i].share = share;
 		i++;
 	}
 }
@@ -50,5 +72,4 @@ void	init_arg(t_arg *arg, char **argv)
 	if (arg->num < 0 || arg->time_die < 0 || arg->time_eat < 0
 		|| arg->time_sleep < 0)
 		error_handle("error\n");
-	pthread_mutex_init(&(arg->mutex), NULL);
 }

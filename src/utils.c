@@ -6,7 +6,7 @@
 /*   By: hunpark <hunpark@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 14:00:59 by hunpark           #+#    #+#             */
-/*   Updated: 2023/04/18 20:56:09 by hunpark          ###   ########.fr       */
+/*   Updated: 2023/04/26 15:07:11 by hunpark          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,4 +48,18 @@ void	ft_check(int a)
 	if (a == 0)
 		return ;
 	exit(1);
+}
+
+long	ft_get_time(void)
+{
+	struct timeval	start_time;
+	struct timeval	end_time;
+	long			diff_sec;
+	long			diff_usec;
+
+	gettimeofday(&start_time, NULL);
+	gettimeofday(&end_time, NULL);
+	diff_sec = end_time.tv_sec - start_time.tv_sec;
+	diff_usec = end_time.tv_usec - start_time.tv_usec;
+	return (diff_sec * 1000 + (diff_usec / 1000));
 }
