@@ -6,7 +6,7 @@
 /*   By: hunpark <hunpark@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 14:00:59 by hunpark           #+#    #+#             */
-/*   Updated: 2023/04/26 15:07:11 by hunpark          ###   ########.fr       */
+/*   Updated: 2023/04/28 02:24:58 by hunpark          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,23 +43,23 @@ void	error_handle(char *str)
 	exit(1);
 }
 
-void	ft_check(int a)
-{
-	if (a == 0)
-		return ;
-	exit(1);
-}
-
 long	ft_get_time(void)
 {
-	struct timeval	start_time;
-	struct timeval	end_time;
-	long			diff_sec;
-	long			diff_usec;
+	struct timeval	time;
 
-	gettimeofday(&start_time, NULL);
-	gettimeofday(&end_time, NULL);
-	diff_sec = end_time.tv_sec - start_time.tv_sec;
-	diff_usec = end_time.tv_usec - start_time.tv_usec;
-	return (diff_sec * 1000 + (diff_usec / 1000));
+	gettimeofday(&time, NULL);
+	return (time.tv_sec * 1000 + (time.tv_usec / 1000));
+}
+
+void	ft_free(t_philo *philo)
+{
+	free(philo->share);
+	free(philo);
+}
+
+t_bool	is_die(t_philo *philo)
+{
+	if (philo->share->finish == true)
+		return (false);
+	return (true);
 }

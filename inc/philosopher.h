@@ -6,7 +6,7 @@
 /*   By: hunpark <hunpark@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 13:37:08 by hunpark           #+#    #+#             */
-/*   Updated: 2023/04/26 14:45:19 by hunpark          ###   ########.fr       */
+/*   Updated: 2023/04/28 02:23:00 by hunpark          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,12 +67,16 @@ void	init_share(t_share *share, t_arg *arg);
 //utils
 int		ft_atoi(const char *s);
 void	error_handle(char *str);
-void	ft_check(int a);
 long	ft_get_time(void);
+void	ft_free(t_philo *philo);
 
 // thread_utils
 void	ft_thread_create(pthread_t *tid, t_philo *philo);
 void	ft_thread_join(pthread_t *tid, t_philo *philo);
+void	ft_msg(t_philo *philo, char *msg);
 
+// dine
+void	dine(t_philo *philo);
+void	*thread_route(void *arg);
 
 #endif

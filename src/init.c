@@ -6,7 +6,7 @@
 /*   By: hunpark <hunpark@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 20:26:51 by hunpark           #+#    #+#             */
-/*   Updated: 2023/04/26 15:07:11 by hunpark          ###   ########.fr       */
+/*   Updated: 2023/04/28 02:24:02 by hunpark          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,13 +27,21 @@ void	init_share(t_share *share, t_arg *arg)
 	i = 0;
 	share->fork = malloc(sizeof(pthread_mutex_t) * arg->num);
 	if (!share->fork)
-		error_handle("malloc error");
+		error_handle("malloc_error");
 	while (i < arg->num)
 	{
-		ft_check(pthread_mutex_init(&(share->fork[i]), NULL));
+		if (pthread_mutex_init(&(share->fork[i]), NULL) != 0)
+		{
+			free(share->fork);
+			error_handle("mutex_init_error");
+		}
 		i++;
 	}
-	ft_check(pthread_mutex_init(&(share->print), NULL));
+	if (pthread_mutex_init(&(share->print), NULL) != 0)
+	{
+		free(share->fork);
+		error_handle("mutex_init_error");
+	}
 	share->time_to_start = ft_get_time();
 	share->finish = false;
 }
@@ -45,7 +53,10 @@ void	init_philo(t_philo **philo, t_arg *arg, t_share *share)
 	i = 0;
 	*philo = malloc(sizeof(t_philo) * arg->num);
 	if (!(*philo))
-		error_handle("malloc error\n");
+	{
+		free(share);
+		error_handle("malloc_error\n");
+	}
 	while (i < arg->num)
 	{
 		(*philo)[i].eat_cnt = 0;
