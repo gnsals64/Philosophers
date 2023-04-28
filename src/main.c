@@ -6,13 +6,13 @@
 /*   By: hunpark <hunpark@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 13:35:56 by hunpark           #+#    #+#             */
-/*   Updated: 2023/04/28 17:09:10 by hunpark          ###   ########.fr       */
+/*   Updated: 2023/04/28 19:34:26 by hunpark          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/philosopher.h"
 
-void	philosopher(t_arg *arg, t_philo *philo)
+int	philosopher(t_arg *arg, t_philo *philo)
 {
 	pthread_t	*tid;
 
@@ -20,11 +20,18 @@ void	philosopher(t_arg *arg, t_philo *philo)
 	if (!tid)
 	{
 		ft_free(philo);
-		error_handle("malloc error");
+		return (-1);
 	}
-	ft_thread_create(tid, philo);
-	monitor_thread(tid, philo);
-	ft_thread_join(tid, philo);
+	if (ft_thread_create(tid, philo) == -1)
+		return (-1);
+	if (monitor_thread(tid, philo) == -1)
+		return (-1);
+	if (ft_thread_join(tid, philo) == -1)
+		return (-1);
+	free(tid);
+	free(philo);
+	free(philo->share->fork);
+	return (0);
 }
 
 int	main(int argc, char **argv)
@@ -34,7 +41,16 @@ int	main(int argc, char **argv)
 	t_philo		*philo;
 
 	if (argc != 5 && argc != 6)
-		error_handle("usage : ./philosopher 1 2 3 4 (5)\n");
-	ft_init(&arg, &philo, &share, argv);
-	philosopher(&arg, philo);
+	{
+		printf("usage : ./philosopher 1 2 3 4 (5)\n");
+		return (1);
+	}
+	if (ft_init(&arg, &philo, &share, argv) == -1)
+	{
+		printf("init error\n");
+		return (1);
+	}
+	if (philosopher(&arg, philo) == -1)
+		return (1);
+	return (0);
 }

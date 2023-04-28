@@ -6,7 +6,7 @@
 /*   By: hunpark <hunpark@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 13:37:08 by hunpark           #+#    #+#             */
-/*   Updated: 2023/04/28 16:46:56 by hunpark          ###   ########.fr       */
+/*   Updated: 2023/04/28 19:32:10 by hunpark          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,13 +56,14 @@ typedef struct s_philo
 
 //main
 void	*thread_route(void *arg);
-void	philosopher(t_arg *arg, t_philo *philo);
+int		philosopher(t_arg *arg, t_philo *philo);
 
 // init
-void	ft_init(t_arg *arg, t_philo **philo, t_share *share, char **argv);
-void	init_philo(t_philo **philo, t_arg *arg, t_share *share);
+int		ft_init(t_arg *arg, t_philo **philo, t_share *share, char **argv);
+int		init_philo(t_philo **philo, t_arg *arg, t_share *share);
 void	init_arg(t_arg *arg, char **argv);
-void	init_share(t_share *share, t_arg *arg);
+int		init_share(t_share *share, t_arg *arg);
+int		check_argv(char **argv);
 
 //utils
 int		ft_atoi(const char *s);
@@ -71,8 +72,8 @@ long	ft_get_time(void);
 void	ft_free(t_philo *philo);
 
 // thread_utils
-void	ft_thread_create(pthread_t *tid, t_philo *philo);
-void	ft_thread_join(pthread_t *tid, t_philo *philo);
+int		ft_thread_create(pthread_t *tid, t_philo *philo);
+int		ft_thread_join(pthread_t *tid, t_philo *philo);
 void	ft_msg(t_philo *philo, char *msg);
 
 // dine
@@ -81,6 +82,6 @@ void	*thread_route(void *arg);
 
 //monitor
 void	*monitor(void *arg);
-void	monitor_thread(pthread_t *tid, t_philo *philo);
+int		monitor_thread(pthread_t *tid, t_philo *philo);
 
 #endif

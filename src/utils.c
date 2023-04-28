@@ -6,7 +6,7 @@
 /*   By: hunpark <hunpark@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 14:00:59 by hunpark           #+#    #+#             */
-/*   Updated: 2023/04/28 17:09:18 by hunpark          ###   ########.fr       */
+/*   Updated: 2023/04/28 19:10:57 by hunpark          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,6 @@ int	ft_atoi(const char *s)
 void	error_handle(char *str)
 {
 	printf("%s", str);
-	exit(1);
 }
 
 long	ft_get_time(void)

@@ -6,7 +6,7 @@
 /*   By: hunpark <hunpark@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/28 02:23:42 by hunpark           #+#    #+#             */
-/*   Updated: 2023/04/28 17:09:08 by hunpark          ###   ########.fr       */
+/*   Updated: 2023/04/28 19:41:21 by hunpark          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	*monitor(void *arg)
 			{
 				philo->share->finish = true;
 				pthread_mutex_lock(&(philo->share->print));
-				printf("%lums    %d    is die\n",
+				printf("%lu %d died\n",
 					(now - philo->share->time_to_start), philo[i].id);
 				pthread_mutex_unlock(&(philo->share->print));
 				break ;
@@ -41,7 +41,7 @@ void	*monitor(void *arg)
 	return (NULL);
 }
 
-void	monitor_thread(pthread_t *tid, t_philo *philo)
+int	monitor_thread(pthread_t *tid, t_philo *philo)
 {
 	pthread_t	monitor_thread;
 
@@ -49,6 +49,8 @@ void	monitor_thread(pthread_t *tid, t_philo *philo)
 	{
 		free(tid);
 		ft_free(philo);
-		error_handle("thread_create_error");
+		printf("thread_create_error\n");
+		return (-1);
 	}
+	return (0);
 }

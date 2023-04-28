@@ -6,47 +6,77 @@
 /*   By: hunpark <hunpark@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 20:26:51 by hunpark           #+#    #+#             */
-/*   Updated: 2023/04/28 17:09:13 by hunpark          ###   ########.fr       */
+/*   Updated: 2023/04/28 19:27:38 by hunpark          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/philosopher.h"
 
-void	ft_init(t_arg *arg, t_philo **philo, t_share *share, char **argv)
+int	ft_init(t_arg *arg, t_philo **philo, t_share *share, char **argv)
 {
 	memset(arg, 0, sizeof(t_arg));
+	if (check_argv(argv) == -1)
+		return (-1);
 	init_arg(arg, argv);
-	init_share(share, arg);
-	init_philo(philo, arg, share);
+	if (init_share(share, arg) == -1)
+		return (-1);
+	if (init_philo(philo, arg, share) == -1)
+		return (-1);
+	return (0);
 }
 
-void	init_share(t_share *share, t_arg *arg)
+int	check_argv(char **argv)
+{
+	int	i;
+	int	j;
+
+	i = 1;
+	while (argv[i] != NULL)
+	{
+		j = 0;
+		while (argv[i][j])
+		{
+			if (!(argv[i][j] >= '0' && argv[i][j] <= '9'))
+				return (-1);
+			j++;
+		}
+		i++;
+	}
+	if (ft_atoi(argv[1]) == 0)
+		return (-1);
+	return (0);
+}
+
+int	init_share(t_share *share, t_arg *arg)
 {
 	int	i;
 
 	i = 0;
 	share->fork = malloc(sizeof(pthread_mutex_t) * arg->num);
 	if (!share->fork)
-		error_handle("malloc_error");
+		return (-1);
 	while (i < arg->num)
 	{
 		if (pthread_mutex_init(&(share->fork[i]), NULL) != 0)
 		{
 			free(share->fork);
-			error_handle("mutex_init_error");
+			printf("mutex_init_error\n");
+			return (-1);
 		}
 		i++;
 	}
 	if (pthread_mutex_init(&(share->print), NULL) != 0)
 	{
 		free(share->fork);
-		error_handle("mutex_init_error");
+		printf("mutex_init_error\n");
+		return (-1);
 	}
 	share->time_to_start = ft_get_time();
 	share->finish = false;
+	return (0);
 }
 
-void	init_philo(t_philo **philo, t_arg *arg, t_share *share)
+int	init_philo(t_philo **philo, t_arg *arg, t_share *share)
 {
 	int	i;
 
@@ -55,7 +85,7 @@ void	init_philo(t_philo **philo, t_arg *arg, t_share *share)
 	if (!(*philo))
 	{
 		free(share);
-		error_handle("malloc_error\n");
+		return (-1);
 	}
 	while (i < arg->num)
 	{
@@ -68,6 +98,7 @@ void	init_philo(t_philo **philo, t_arg *arg, t_share *share)
 		(*philo)[i].share = share;
 		i++;
 	}
+	return (0);
 }
 
 void	init_arg(t_arg *arg, char **argv)
@@ -80,7 +111,4 @@ void	init_arg(t_arg *arg, char **argv)
 		arg->must_eat = ft_atoi(argv[5]);
 	else
 		arg->must_eat = -1;
-	if (arg->num < 0 || arg->time_die < 0 || arg->time_eat < 0
-		|| arg->time_sleep < 0)
-		error_handle("error\n");
 }
