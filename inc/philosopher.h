@@ -6,7 +6,7 @@
 /*   By: hunpark <hunpark@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 13:37:08 by hunpark           #+#    #+#             */
-/*   Updated: 2023/04/28 02:23:00 by hunpark          ###   ########.fr       */
+/*   Updated: 2023/04/28 16:46:56 by hunpark          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ typedef struct s_philo
 {
 	int				eat_cnt;
 	int				id;
-	int				last_eat;
+	long			last_eat;
 	int				left_fork;
 	int				right_fork;
 	t_arg			*arg;
@@ -78,5 +78,9 @@ void	ft_msg(t_philo *philo, char *msg);
 // dine
 void	dine(t_philo *philo);
 void	*thread_route(void *arg);
+
+//monitor
+void	*monitor(void *arg);
+void	monitor_thread(pthread_t *tid, t_philo *philo);
 
 #endif

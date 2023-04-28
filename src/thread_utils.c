@@ -6,7 +6,7 @@
 /*   By: hunpark <hunpark@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/22 02:20:57 by hupa              #+#    #+#             */
-/*   Updated: 2023/04/28 02:24:53 by hunpark          ###   ########.fr       */
+/*   Updated: 2023/04/28 17:09:17 by hunpark          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,9 @@ void	ft_thread_create(pthread_t *tid, t_philo *philo)
 		usleep(10);
 		i++;
 	}
+	usleep(1000);
+	if (philo->share->finish == true)
+		exit(1);
 }
 
 void	ft_thread_join(pthread_t *tid, t_philo *philo)
@@ -53,7 +56,11 @@ void	ft_msg(t_philo *philo, char *msg)
 	long	now;
 
 	now = ft_get_time();
-	pthread_mutex_lock(&(philo->share->print));
-	printf("%lums %d %s\n", (now - philo->share->time_to_start), philo->id, msg);
-	pthread_mutex_unlock(&(philo->share->print));
+	if (philo->share->finish != true)
+	{
+		pthread_mutex_lock(&(philo->share->print));
+		printf("%lums    %d    %s\n",
+			(now - philo->share->time_to_start), philo->id, msg);
+		pthread_mutex_unlock(&(philo->share->print));
+	}
 }

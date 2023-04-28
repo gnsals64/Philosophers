@@ -6,7 +6,7 @@
 /*   By: hunpark <hunpark@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 13:35:56 by hunpark           #+#    #+#             */
-/*   Updated: 2023/04/28 02:24:47 by hunpark          ###   ########.fr       */
+/*   Updated: 2023/04/28 17:09:10 by hunpark          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	philosopher(t_arg *arg, t_philo *philo)
 		error_handle("malloc error");
 	}
 	ft_thread_create(tid, philo);
-	// monitor_tread(tid, philo);
+	monitor_thread(tid, philo);
 	ft_thread_join(tid, philo);
 }
 
