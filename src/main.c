@@ -6,11 +6,18 @@
 /*   By: hunpark <hunpark@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 13:35:56 by hunpark           #+#    #+#             */
-/*   Updated: 2023/04/28 19:34:26 by hunpark          ###   ########.fr       */
+/*   Updated: 2023/04/28 20:05:35 by hunpark          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/philosopher.h"
+
+void	only_one(t_philo *philo)
+{
+	ft_msg(&philo[0], "has taken a fork");
+	pass_time(philo, philo->arg->time_die);
+	ft_msg(&philo[0], "died");
+}
 
 int	philosopher(t_arg *arg, t_philo *philo)
 {
@@ -22,15 +29,20 @@ int	philosopher(t_arg *arg, t_philo *philo)
 		ft_free(philo);
 		return (-1);
 	}
-	if (ft_thread_create(tid, philo) == -1)
-		return (-1);
-	if (monitor_thread(tid, philo) == -1)
-		return (-1);
-	if (ft_thread_join(tid, philo) == -1)
-		return (-1);
+	if (arg->num != 1)
+	{
+		if (ft_thread_create(tid, philo) == -1)
+			return (-1);
+		if (monitor_thread(tid, philo) == -1)
+			return (-1);
+		if (ft_thread_join(tid, philo) == -1)
+			return (-1);
+	}
+	else
+		only_one(philo);
 	free(tid);
-	free(philo);
 	free(philo->share->fork);
+	free(philo);
 	return (0);
 }
 

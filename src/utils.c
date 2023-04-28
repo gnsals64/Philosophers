@@ -6,7 +6,7 @@
 /*   By: hunpark <hunpark@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 14:00:59 by hunpark           #+#    #+#             */
-/*   Updated: 2023/04/28 19:10:57 by hunpark          ###   ########.fr       */
+/*   Updated: 2023/04/28 20:06:42 by hunpark          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,11 +37,6 @@ int	ft_atoi(const char *s)
 	return (sign * res);
 }
 
-void	error_handle(char *str)
-{
-	printf("%s", str);
-}
-
 long	ft_get_time(void)
 {
 	struct timeval	time;
@@ -54,11 +49,4 @@ void	ft_free(t_philo *philo)
 {
 	free(philo->share);
 	free(philo);
-}
-
-t_bool	is_die(t_philo *philo)
-{
-	if (philo->share->finish == true)
-		return (false);
-	return (true);
 }

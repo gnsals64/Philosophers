@@ -6,18 +6,20 @@
 /*   By: hunpark <hunpark@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/28 02:21:02 by hunpark           #+#    #+#             */
-/*   Updated: 2023/04/28 19:07:01 by hunpark          ###   ########.fr       */
+/*   Updated: 2023/04/28 20:09:09 by hunpark          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/philosopher.h"
 
-void	time_pass(t_philo *philo, long time)
+void	pass_time(t_philo *philo, long time)
 {
 	long	now;
 	long	start;
 
 	start = ft_get_time();
+	if (time == 0)
+		return ;
 	while (philo->share->finish != true)
 	{
 		now = ft_get_time();
@@ -36,16 +38,13 @@ void	dine(t_philo *philo)
 {
 	pthread_mutex_lock(&(philo->share->fork[philo->left_fork]));
 	ft_msg(philo, "has taken a fork");
-	if (philo->arg->num != 1)
-	{
-		pthread_mutex_lock(&(philo->share->fork[philo->right_fork]));
-		ft_msg(philo, "has taken a fork");
-		ft_msg(philo, "is eating");
-		philo->last_eat = ft_get_time();
-		philo->eat_cnt++;
-		time_pass(philo, philo->arg->time_eat);
-		pthread_mutex_unlock(&(philo->share->fork[philo->right_fork]));
-	}
+	pthread_mutex_lock(&(philo->share->fork[philo->right_fork]));
+	ft_msg(philo, "has taken a fork");
+	ft_msg(philo, "is eating");
+	philo->last_eat = ft_get_time();
+	philo->eat_cnt++;
+	pass_time(philo, philo->arg->time_eat);
+	pthread_mutex_unlock(&(philo->share->fork[philo->right_fork]));
 	pthread_mutex_unlock(&(philo->share->fork[philo->left_fork]));
 }
 
@@ -61,8 +60,13 @@ void	*thread_route(void *arg)
 	while (philo->share->finish != true)
 	{
 		dine(philo);
+		if (philo->arg->must_eat != -1)
+		{
+			if (philo->eat_cnt >= philo->arg->must_eat)
+				break ;
+		}
 		ft_msg(philo, "is sleeping");
-		time_pass(philo, philo->arg->time_sleep);
+		pass_time(philo, philo->arg->time_sleep);
 		if (philo->share->finish == true)
 			break ;
 		ft_msg(philo, "is thinking");
