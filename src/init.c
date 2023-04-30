@@ -6,7 +6,7 @@
 /*   By: hunpark <hunpark@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 20:26:51 by hunpark           #+#    #+#             */
-/*   Updated: 2023/04/28 20:05:39 by hunpark          ###   ########.fr       */
+/*   Updated: 2023/04/30 01:55:14 by hunpark          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,14 @@ int	check_argv(char **argv)
 		}
 		i++;
 	}
-	if (ft_atoi(argv[1]) == 0)
+	if (ft_atoi(argv[1]) == 0 || ft_atoi(argv[2]) == 0
+		|| ft_atoi(argv[3]) == 0 || ft_atoi(argv[4]) == 0)
 		return (-1);
+	if (argv[5] != NULL)
+	{
+		if (ft_atoi(argv[5]) == 0)
+			return (-1);
+	}
 	return (0);
 }
 
