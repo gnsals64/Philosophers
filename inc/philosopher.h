@@ -40,6 +40,8 @@ typedef struct s_share
 	long			time_to_start;
 	t_bool			finish;
 	pthread_mutex_t	print;
+	pthread_mutex_t	time;
+	pthread_mutex_t	end;
 	pthread_mutex_t	*fork;
 }	t_share;
 
@@ -58,13 +60,14 @@ typedef struct s_philo
 void	*thread_route(void *arg);
 int		philosopher(t_arg *arg, t_philo *philo);
 void	only_one(t_philo *philo);
+int		ft_init(t_arg *arg, t_philo **philo, t_share *share, char **argv);
 
 // init
-int		ft_init(t_arg *arg, t_philo **philo, t_share *share, char **argv);
 int		init_philo(t_philo **philo, t_arg *arg, t_share *share);
 void	init_arg(t_arg *arg, char **argv);
 int		init_share(t_share *share, t_arg *arg);
 int		check_argv(char **argv);
+int		mutex_init(t_share *share);
 
 //utils
 int		ft_atoi(const char *s);
@@ -80,9 +83,12 @@ void	ft_msg(t_philo *philo, char *msg);
 void	dine(t_philo *philo);
 void	*thread_route(void *arg);
 void	pass_time(t_philo *philo, long time);
+void	ft_sleep(t_philo *philo);
+void	ft_sleep_msg(t_philo *philo);
 
 //monitor
 void	*monitor(void *arg);
 int		monitor_thread(pthread_t *tid, t_philo *philo);
+int		check_finish(t_philo *philo, int i, long now);
 
 #endif

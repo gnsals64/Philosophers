@@ -12,6 +12,19 @@
 
 #include "../inc/philosopher.h"
 
+int	ft_init(t_arg *arg, t_philo **philo, t_share *share, char **argv)
+{
+	memset(arg, 0, sizeof(t_arg));
+	if (check_argv(argv) == -1)
+		return (-1);
+	init_arg(arg, argv);
+	if (init_share(share, arg) == -1)
+		return (-1);
+	if (init_philo(philo, arg, share) == -1)
+		return (-1);
+	return (0);
+}
+
 void	only_one(t_philo *philo)
 {
 	ft_msg(&philo[0], "has taken a fork");

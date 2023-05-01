@@ -12,7 +12,7 @@
 
 NAME = philo
 CC = cc
-FLAG = -Wall -Werror -Wextra
+FLAG = -g -Wall -Werror -Wextra -fsanitize=thread -g3
 SRC_FILE = $(addprefix src/, main utils init thread_utils dine monitor)
 SRCS = ${SRC_FILE:=.c}
 

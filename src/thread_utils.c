@@ -56,6 +56,7 @@ void	ft_msg(t_philo *philo, char *msg)
 {
 	long	now;
 
+	pthread_mutex_lock(&(philo->share->end));
 	if (philo->share->finish != true)
 	{
 		pthread_mutex_lock(&(philo->share->print));
@@ -64,4 +65,5 @@ void	ft_msg(t_philo *philo, char *msg)
 			(now - philo->share->time_to_start), philo->id, msg);
 		pthread_mutex_unlock(&(philo->share->print));
 	}
+	pthread_mutex_unlock(&(philo->share->end));
 }

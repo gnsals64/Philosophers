@@ -20,16 +20,18 @@ void	pass_time(t_philo *philo, long time)
 	start = ft_get_time();
 	if (time == 0)
 		return ;
-	while (philo->share->finish != true)
+	while (1)
 	{
 		now = ft_get_time();
 		if ((now - start) >= time)
 			break ;
-		if (now - philo->last_eat > philo->arg->time_die)
+		pthread_mutex_lock(&(philo->share->end));
+		if (philo->share->finish == true)
 		{
-			ft_msg(philo, "is die");
-			philo->share->finish = true;
+			pthread_mutex_unlock(&(philo->share->end));
+			break ;
 		}
+		pthread_mutex_unlock(&(philo->share->end));
 		usleep(100);
 	}
 }
@@ -41,11 +43,25 @@ void	dine(t_philo *philo)
 	pthread_mutex_lock(&(philo->share->fork[philo->right_fork]));
 	ft_msg(philo, "has taken a fork");
 	ft_msg(philo, "is eating");
+	pthread_mutex_lock(&(philo->share->time));
 	philo->last_eat = ft_get_time();
+	pthread_mutex_unlock(&(philo->share->time));
 	philo->eat_cnt++;
 	pass_time(philo, philo->arg->time_eat);
 	pthread_mutex_unlock(&(philo->share->fork[philo->right_fork]));
 	pthread_mutex_unlock(&(philo->share->fork[philo->left_fork]));
+}
+
+void	ft_sleep(t_philo *philo)
+{
+	if (philo->id % 2)
+		usleep(1000);
+}
+
+void	ft_sleep_msg(t_philo *philo)
+{
+	ft_msg(philo, "is sleeping");
+	pass_time(philo, philo->arg->time_sleep);
 }
 
 void	*thread_route(void *arg)
@@ -55,9 +71,7 @@ void	*thread_route(void *arg)
 
 	i = 0;
 	philo = (t_philo *)arg;
-	if (philo->id % 2)
-		usleep(1000);
-	while (philo->share->finish != true)
+	while (1)
 	{
 		dine(philo);
 		if (philo->arg->must_eat != -1)
@@ -65,10 +79,14 @@ void	*thread_route(void *arg)
 			if (philo->eat_cnt >= philo->arg->must_eat)
 				break ;
 		}
-		ft_msg(philo, "is sleeping");
-		pass_time(philo, philo->arg->time_sleep);
+		ft_sleep_msg(philo);
+		pthread_mutex_lock(&(philo->share->end));
 		if (philo->share->finish == true)
+		{
+			pthread_mutex_unlock(&(philo->share->end));
 			break ;
+		}
+		pthread_mutex_unlock(&(philo->share->end));
 		ft_msg(philo, "is thinking");
 	}
 	return (NULL);

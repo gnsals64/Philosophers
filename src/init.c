@@ -12,19 +12,6 @@
 
 #include "../inc/philosopher.h"
 
-int	ft_init(t_arg *arg, t_philo **philo, t_share *share, char **argv)
-{
-	memset(arg, 0, sizeof(t_arg));
-	if (check_argv(argv) == -1)
-		return (-1);
-	init_arg(arg, argv);
-	if (init_share(share, arg) == -1)
-		return (-1);
-	if (init_philo(philo, arg, share) == -1)
-		return (-1);
-	return (0);
-}
-
 int	check_argv(char **argv)
 {
 	int	i;
@@ -53,6 +40,17 @@ int	check_argv(char **argv)
 	return (0);
 }
 
+int	mutex_init(t_share *share)
+{
+	if (pthread_mutex_init(&(share->print), NULL) != 0)
+		return (-1);
+	if (pthread_mutex_init(&(share->time), NULL) != 0)
+		return (-1);
+	if (pthread_mutex_init(&(share->end), NULL) != 0)
+		return (-1);
+	return (0);
+}
+
 int	init_share(t_share *share, t_arg *arg)
 {
 	int	i;
@@ -71,7 +69,7 @@ int	init_share(t_share *share, t_arg *arg)
 		}
 		i++;
 	}
-	if (pthread_mutex_init(&(share->print), NULL) != 0)
+	if (mutex_init(share) == -1)
 	{
 		free(share->fork);
 		printf("mutex_init_error\n");
