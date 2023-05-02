@@ -6,20 +6,40 @@
 /*   By: hunpark <hunpark@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/28 02:23:42 by hunpark           #+#    #+#             */
-/*   Updated: 2023/04/28 20:05:09 by hunpark          ###   ########.fr       */
+/*   Updated: 2023/05/02 18:35:39 by hunpark          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/philosopher.h"
 
-int	check_finish(t_philo *philo, int i, long now)
+int	must_eat_run(t_philo *philo)
 {
+	if (philo->arg->must_eat != -1)
+	{
+		pthread_mutex_lock(&(philo->share->end));
+		if (philo->share->finish == philo->arg->num)
+		{
+			pthread_mutex_lock(&(philo->share->mutex_die));
+			philo->share->dead = true;
+			pthread_mutex_unlock(&(philo->share->mutex_die));
+			pthread_mutex_unlock(&(philo->share->end));
+			return (1);
+		}
+		pthread_mutex_unlock(&(philo->share->end));
+	}
+	return (0);
+}
+
+int	check_die(t_philo *philo, int i, long now)
+{
+	if (must_eat_run(philo) == 1)
+		return (1);
 	pthread_mutex_lock(&(philo->share->time));
 	if ((now - philo[i].last_eat > philo->arg->time_die))
 	{
-		pthread_mutex_lock(&(philo->share->end));
-		philo->share->finish = true;
-		pthread_mutex_unlock(&(philo->share->end));
+		pthread_mutex_lock(&(philo->share->mutex_die));
+		philo->share->dead = true;
+		pthread_mutex_unlock(&(philo->share->mutex_die));
 		pthread_mutex_lock(&(philo->share->print));
 		printf("%lu %d died\n",
 			(now - philo->share->time_to_start), philo[i].id);
@@ -44,17 +64,17 @@ void	*monitor(void *arg)
 		while (i < philo->arg->num)
 		{
 			now = ft_get_time();
-			if (check_finish(philo, i, now) == 1)
+			if (check_die(philo, i, now) == 1)
 				break ;
 			i++;
 		}
-		pthread_mutex_lock(&(philo->share->end));
-		if (philo->share->finish == true)
+		pthread_mutex_lock(&(philo->share->mutex_die));
+		if (philo->share->dead == true)
 		{
-			pthread_mutex_unlock(&(philo->share->end));
+			pthread_mutex_unlock(&(philo->share->mutex_die));
 			break ;
 		}
-		pthread_mutex_unlock(&(philo->share->end));
+		pthread_mutex_unlock(&(philo->share->mutex_die));
 		usleep(10);
 	}
 	return (NULL);

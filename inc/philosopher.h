@@ -6,7 +6,7 @@
 /*   By: hunpark <hunpark@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 13:37:08 by hunpark           #+#    #+#             */
-/*   Updated: 2023/04/28 20:05:28 by hunpark          ###   ########.fr       */
+/*   Updated: 2023/05/02 18:24:39 by hunpark          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,10 +38,12 @@ typedef struct s_arg
 typedef struct s_share
 {
 	long			time_to_start;
-	t_bool			finish;
+	t_bool			dead;
+	int				finish;
 	pthread_mutex_t	print;
 	pthread_mutex_t	time;
 	pthread_mutex_t	end;
+	pthread_mutex_t	mutex_die;
 	pthread_mutex_t	*fork;
 }	t_share;
 
@@ -79,16 +81,20 @@ int		ft_thread_create(pthread_t *tid, t_philo *philo);
 int		ft_thread_join(pthread_t *tid, t_philo *philo);
 void	ft_msg(t_philo *philo, char *msg);
 
-// dine
+//dine
 void	dine(t_philo *philo);
 void	*thread_route(void *arg);
+
+//dine_utils
 void	pass_time(t_philo *philo, long time);
 void	ft_sleep(t_philo *philo);
 void	ft_sleep_msg(t_philo *philo);
+int		dine_check_dead(t_philo *philo);
 
 //monitor
 void	*monitor(void *arg);
 int		monitor_thread(pthread_t *tid, t_philo *philo);
-int		check_finish(t_philo *philo, int i, long now);
+int		check_dead(t_philo *philo, int i, long now);
+int		must_eat_run(t_philo *philo);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: hunpark <hunpark@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 20:26:51 by hunpark           #+#    #+#             */
-/*   Updated: 2023/04/30 01:55:14 by hunpark          ###   ########.fr       */
+/*   Updated: 2023/05/02 18:19:19 by hunpark          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,8 +46,13 @@ int	mutex_init(t_share *share)
 		return (-1);
 	if (pthread_mutex_init(&(share->time), NULL) != 0)
 		return (-1);
+	if (pthread_mutex_init(&(share->mutex_die), NULL) != 0)
+		return (-1);
 	if (pthread_mutex_init(&(share->end), NULL) != 0)
 		return (-1);
+	share->time_to_start = ft_get_time();
+	share->dead = false;
+	share->finish = 0;
 	return (0);
 }
 
@@ -75,8 +80,6 @@ int	init_share(t_share *share, t_arg *arg)
 		printf("mutex_init_error\n");
 		return (-1);
 	}
-	share->time_to_start = ft_get_time();
-	share->finish = false;
 	return (0);
 }
 

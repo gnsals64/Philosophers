@@ -6,7 +6,7 @@
 /*   By: hunpark <hunpark@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/22 02:20:57 by hupa              #+#    #+#             */
-/*   Updated: 2023/04/28 20:05:10 by hunpark          ###   ########.fr       */
+/*   Updated: 2023/05/02 18:49:25 by hunpark          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int	ft_thread_create(pthread_t *tid, t_philo *philo)
 			printf("thread_create_error\n");
 			return (-1);
 		}
-		usleep(1);
+		usleep(10);
 		i++;
 	}
 	return (0);
@@ -56,8 +56,8 @@ void	ft_msg(t_philo *philo, char *msg)
 {
 	long	now;
 
-	pthread_mutex_lock(&(philo->share->end));
-	if (philo->share->finish != true)
+	pthread_mutex_lock(&(philo->share->mutex_die));
+	if (philo->share->dead != true)
 	{
 		pthread_mutex_lock(&(philo->share->print));
 		now = ft_get_time();
@@ -65,5 +65,5 @@ void	ft_msg(t_philo *philo, char *msg)
 			(now - philo->share->time_to_start), philo->id, msg);
 		pthread_mutex_unlock(&(philo->share->print));
 	}
-	pthread_mutex_unlock(&(philo->share->end));
+	pthread_mutex_unlock(&(philo->share->mutex_die));
 }
