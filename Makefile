@@ -6,13 +6,13 @@
 #    By: hunpark <hunpark@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/14 16:54:20 by hunpark           #+#    #+#              #
-#    Updated: 2023/05/02 19:07:33 by hunpark          ###   ########.fr        #
+#    Updated: 2023/05/02 20:15:45 by hunpark          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = philo
 CC = cc
-FLAG = -Wall -Werror -Wextra -fsanitize=thread
+FLAG = -Wall -Werror -Wextra #-fsanitize=thread
 SRC_FILE = $(addprefix src/, main utils init thread_utils dine dine_utils monitor)
 SRCS = ${SRC_FILE:=.c}
 

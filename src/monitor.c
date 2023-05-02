@@ -6,7 +6,7 @@
 /*   By: hunpark <hunpark@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/28 02:23:42 by hunpark           #+#    #+#             */
-/*   Updated: 2023/05/02 18:35:39 by hunpark          ###   ########.fr       */
+/*   Updated: 2023/05/02 20:11:07 by hunpark          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ int	check_die(t_philo *philo, int i, long now)
 		return (1);
 	}
 	pthread_mutex_unlock(&(philo->share->time));
+	usleep(1000);
 	return (0);
 }
 
@@ -75,7 +76,7 @@ void	*monitor(void *arg)
 			break ;
 		}
 		pthread_mutex_unlock(&(philo->share->mutex_die));
-		usleep(10);
+		usleep(1000);
 	}
 	return (NULL);
 }

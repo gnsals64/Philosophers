@@ -6,7 +6,7 @@
 /*   By: hunpark <hunpark@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/22 02:20:57 by hupa              #+#    #+#             */
-/*   Updated: 2023/05/02 18:49:25 by hunpark          ###   ########.fr       */
+/*   Updated: 2023/05/02 19:48:36 by hunpark          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,14 +56,14 @@ void	ft_msg(t_philo *philo, char *msg)
 {
 	long	now;
 
+	pthread_mutex_lock(&(philo->share->print));
 	pthread_mutex_lock(&(philo->share->mutex_die));
 	if (philo->share->dead != true)
 	{
-		pthread_mutex_lock(&(philo->share->print));
 		now = ft_get_time();
 		printf("%lu %d %s\n",
 			(now - philo->share->time_to_start), philo->id, msg);
-		pthread_mutex_unlock(&(philo->share->print));
 	}
 	pthread_mutex_unlock(&(philo->share->mutex_die));
+	pthread_mutex_unlock(&(philo->share->print));
 }

@@ -6,7 +6,7 @@
 /*   By: hunpark <hunpark@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/28 02:21:02 by hunpark           #+#    #+#             */
-/*   Updated: 2023/05/02 18:29:09 by hunpark          ###   ########.fr       */
+/*   Updated: 2023/05/02 20:04:06 by hunpark          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,16 +24,14 @@ void	dine(t_philo *philo)
 	pthread_mutex_unlock(&(philo->share->time));
 	philo->eat_cnt++;
 	pass_time(philo, philo->arg->time_eat);
-	pthread_mutex_unlock(&(philo->share->fork[philo->right_fork]));
 	pthread_mutex_unlock(&(philo->share->fork[philo->left_fork]));
+	pthread_mutex_unlock(&(philo->share->fork[philo->right_fork]));
 }
 
 void	*thread_route(void *arg)
 {
 	t_philo		*philo;
-	int			i;
 
-	i = 0;
 	philo = (t_philo *)arg;
 	ft_sleep(philo);
 	while (1)
@@ -53,6 +51,7 @@ void	*thread_route(void *arg)
 		if (dine_check_dead(philo) == 1)
 			break ;
 		ft_msg(philo, "is thinking");
+		usleep(1000);
 	}
 	return (NULL);
 }
