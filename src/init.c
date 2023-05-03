@@ -6,7 +6,7 @@
 /*   By: hunpark <hunpark@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 20:26:51 by hunpark           #+#    #+#             */
-/*   Updated: 2023/05/02 18:19:19 by hunpark          ###   ########.fr       */
+/*   Updated: 2023/05/03 21:19:57 by hunpark          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,33 +56,6 @@ int	mutex_init(t_share *share)
 	return (0);
 }
 
-int	init_share(t_share *share, t_arg *arg)
-{
-	int	i;
-
-	i = 0;
-	share->fork = malloc(sizeof(pthread_mutex_t) * arg->num);
-	if (!share->fork)
-		return (-1);
-	while (i < arg->num)
-	{
-		if (pthread_mutex_init(&(share->fork[i]), NULL) != 0)
-		{
-			free(share->fork);
-			printf("mutex_init_error\n");
-			return (-1);
-		}
-		i++;
-	}
-	if (mutex_init(share) == -1)
-	{
-		free(share->fork);
-		printf("mutex_init_error\n");
-		return (-1);
-	}
-	return (0);
-}
-
 int	init_philo(t_philo **philo, t_arg *arg, t_share *share)
 {
 	int	i;
@@ -100,7 +73,7 @@ int	init_philo(t_philo **philo, t_arg *arg, t_share *share)
 		(*philo)[i].id = i;
 		(*philo)[i].left_fork = i;
 		(*philo)[i].right_fork = (i + arg->num - 1) % arg->num;
-		(*philo)[i].last_eat = ft_get_time();
+		(*philo)[i].last_eat  = ft_get_time();
 		(*philo)[i].arg = arg;
 		(*philo)[i].share = share;
 		i++;

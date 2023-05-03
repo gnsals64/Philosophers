@@ -6,7 +6,7 @@
 /*   By: hunpark <hunpark@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 13:37:08 by hunpark           #+#    #+#             */
-/*   Updated: 2023/05/02 18:24:39 by hunpark          ###   ########.fr       */
+/*   Updated: 2023/05/03 19:41:27 by hunpark          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,6 @@ int		mutex_init(t_share *share);
 //utils
 int		ft_atoi(const char *s);
 long	ft_get_time(void);
-void	ft_free(t_philo *philo);
 
 // thread_utils
 int		ft_thread_create(pthread_t *tid, t_philo *philo);
@@ -96,5 +95,8 @@ void	*monitor(void *arg);
 int		monitor_thread(pthread_t *tid, t_philo *philo);
 int		check_dead(t_philo *philo, int i, long now);
 int		must_eat_run(t_philo *philo);
+
+//free
+void	ft_free(t_philo *philo);
 
 #endif
