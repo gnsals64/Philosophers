@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hunpark <hunpark@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hupa <hupa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 20:26:51 by hunpark           #+#    #+#             */
-/*   Updated: 2023/05/03 21:19:57 by hunpark          ###   ########.fr       */
+/*   Updated: 2023/05/08 02:27:55 by hupa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,11 +45,20 @@ int	mutex_init(t_share *share)
 	if (pthread_mutex_init(&(share->print), NULL) != 0)
 		return (-1);
 	if (pthread_mutex_init(&(share->time), NULL) != 0)
+	{
+		mutex_error_destroy(share, 1);
 		return (-1);
+	}
 	if (pthread_mutex_init(&(share->mutex_die), NULL) != 0)
+	{
+		mutex_error_destroy(share, 2);
 		return (-1);
+	}
 	if (pthread_mutex_init(&(share->end), NULL) != 0)
+	{
+		mutex_error_destroy(share, 3);
 		return (-1);
+	}
 	share->time_to_start = ft_get_time();
 	share->dead = false;
 	share->finish = 0;
@@ -70,7 +79,7 @@ int	init_philo(t_philo **philo, t_arg *arg, t_share *share)
 	while (i < arg->num)
 	{
 		(*philo)[i].eat_cnt = 0;
-		(*philo)[i].id = i;
+		(*philo)[i].id = i + 1;
 		(*philo)[i].left_fork = i;
 		(*philo)[i].right_fork = (i + arg->num - 1) % arg->num;
 		(*philo)[i].last_eat  = ft_get_time();

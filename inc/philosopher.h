@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philosopher.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hunpark <hunpark@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hupa <hupa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 13:37:08 by hunpark           #+#    #+#             */
-/*   Updated: 2023/05/03 19:41:27 by hunpark          ###   ########.fr       */
+/*   Updated: 2023/05/08 02:53:17 by hupa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,13 +61,11 @@ typedef struct s_philo
 //main
 void	*thread_route(void *arg);
 int		philosopher(t_arg *arg, t_philo *philo);
-void	only_one(t_philo *philo);
 int		ft_init(t_arg *arg, t_philo **philo, t_share *share, char **argv);
 
 // init
 int		init_philo(t_philo **philo, t_arg *arg, t_share *share);
 void	init_arg(t_arg *arg, char **argv);
-int		init_share(t_share *share, t_arg *arg);
 int		check_argv(char **argv);
 int		mutex_init(t_share *share);
 
@@ -79,10 +77,13 @@ long	ft_get_time(void);
 int		ft_thread_create(pthread_t *tid, t_philo *philo);
 int		ft_thread_join(pthread_t *tid, t_philo *philo);
 void	ft_msg(t_philo *philo, char *msg);
+int		only_one(pthread_t *tid, t_philo *philo);
 
 //dine
 void	dine(t_philo *philo);
+void	dine_last(t_philo *philo);
 void	*thread_route(void *arg);
+void	*thread_route_last(void *arg);
 
 //dine_utils
 void	pass_time(t_philo *philo, long time);
@@ -96,7 +97,12 @@ int		monitor_thread(pthread_t *tid, t_philo *philo);
 int		check_dead(t_philo *philo, int i, long now);
 int		must_eat_run(t_philo *philo);
 
+//share
+int		init_share(t_share *share, t_arg *arg);
+void	fork_destroy_if_fail(t_share *share, int i);
+
 //free
 void	ft_free(t_philo *philo);
+void	mutex_error_destroy(t_share *share, int i);
 
 #endif

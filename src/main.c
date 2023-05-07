@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hunpark <hunpark@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hupa <hupa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 13:35:56 by hunpark           #+#    #+#             */
-/*   Updated: 2023/05/02 19:33:25 by hunpark          ###   ########.fr       */
+/*   Updated: 2023/05/08 02:50:05 by hupa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,13 +23,6 @@ int	ft_init(t_arg *arg, t_philo **philo, t_share *share, char **argv)
 	if (init_philo(philo, arg, share) == -1)
 		return (-1);
 	return (0);
-}
-
-void	only_one(t_philo *philo)
-{
-	ft_msg(&philo[0], "has taken a fork");
-	pass_time(philo, philo->arg->time_die);
-	ft_msg(&philo[0], "died");
 }
 
 int	philosopher(t_arg *arg, t_philo *philo)
@@ -52,10 +45,12 @@ int	philosopher(t_arg *arg, t_philo *philo)
 			return (-1);
 	}
 	else
-		only_one(philo);
+	{
+		if (only_one(tid, philo) == -1)
+			return (-1);
+	}
 	free(tid);
-	free(philo->share->fork);
-	free(philo);
+	ft_free(philo);
 	return (0);
 }
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dine_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hunpark <hunpark@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hupa <hupa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/02 17:42:33 by hunpark           #+#    #+#             */
-/*   Updated: 2023/05/02 20:04:10 by hunpark          ###   ########.fr       */
+/*   Updated: 2023/05/08 01:49:07 by hupa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	pass_time(t_philo *philo, long time)
 			break ;
 		}
 		pthread_mutex_unlock(&(philo->share->mutex_die));
-		usleep(1000);
+		usleep(100);
 	}
 }
 

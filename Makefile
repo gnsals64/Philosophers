@@ -3,17 +3,17 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: hunpark <hunpark@student.42.fr>            +#+  +:+       +#+         #
+#    By: hupa <hupa@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/14 16:54:20 by hunpark           #+#    #+#              #
-#    Updated: 2023/05/03 19:41:37 by hunpark          ###   ########.fr        #
+#    Updated: 2023/05/07 13:54:22 by hupa             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = philo
 CC = cc
 FLAG = -Wall -Werror -Wextra #-fsanitize=thread
-SRC_FILE = $(addprefix src/, main utils init thread_utils dine dine_utils monitor free)
+SRC_FILE = $(addprefix src/, main utils init thread_utils dine dine_utils monitor free share)
 SRCS = ${SRC_FILE:=.c}
 OBJS = ${SRC_FILE:=.o}
 
